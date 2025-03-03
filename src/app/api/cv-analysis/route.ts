@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { fileService, IFileWithBuffer } from "@/services/file";
+import { openRouterService } from "@/services/open-router";
 
 export const config = {
   api: {
@@ -40,5 +41,9 @@ export async function POST(request) {
     return NextResponse.json(res, { status: res.status });
   }
 
-  return NextResponse.json(res, { status: res.status });
+  const analyzedText = await openRouterService.analyze({
+    text: res.data as string,
+  });
+
+  return NextResponse.json(analyzedText, { status: 200 });
 }
