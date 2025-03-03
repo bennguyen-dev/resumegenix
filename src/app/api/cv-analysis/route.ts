@@ -1,55 +1,44 @@
-import { NextRequest, NextResponse } from "next/server";
-import { FileWithBuffer } from "@/services/file";
+import { NextResponse } from "next/server";
+import { fileService, IFileWithBuffer } from "@/services/file";
 
-export async function POST(request: NextRequest) {
-  try {
-    // Since we're using the newer App Router, we need to handle the multipart form data
-    const formData = await request.formData();
-
-    // Get the file from the form data
-    const file = formData.get("file") as File | null;
-
-    if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
-    }
-
-    // Convert the File to Buffer and create the structure expected by extractTextFromFile
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-
-    const fileWithBuffer: FileWithBuffer = {
-      originalname: file.name,
-      buffer: buffer,
-      mimetype: file.type,
-      size: file.size,
-    };
-
-    console.log("fileWithBuffer 😋", { fileWithBuffer }, "");
-
-    // if (extractedText === null) {
-    //   return NextResponse.json(
-    //     { error: "Failed to extract text or unsupported file type" },
-    //     { status: 422 },
-    //   );
-    // }
-
-    // Return the extracted text
-    // return NextResponse.json({ text: extractedText });
-  } catch (error) {
-    console.error("Error processing file:", error);
-    return NextResponse.json(
-      { error: "Server error processing file" },
-      { status: 500 },
-    );
-  }
-}
-
-// Optional: Configure request size limits (adjust as needed)
 export const config = {
   api: {
-    // 10MB limit
     bodyParser: {
       sizeLimit: "10mb",
     },
   },
 };
+
+export async function POST(request) {
+  const formData = await request.formData();
+  const file = formData.get("file") as File | null;
+
+  if (!file) {
+    return NextResponse.json(
+      {
+        status: 422,
+        message: "No file uploaded",
+        data: null,
+      },
+      { status: 422 },
+    );
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  const fileWithBuffer: IFileWithBuffer = {
+    originalName: file.name,
+    buffer: buffer,
+    mimetype: file.type,
+    size: file.size,
+  };
+
+  const res = await fileService.extractTextFromFile(fileWithBuffer);
+
+  if (res.data === null) {
+    return NextResponse.json(res, { status: res.status });
+  }
+
+  return NextResponse.json(res, { status: res.status });
+}
