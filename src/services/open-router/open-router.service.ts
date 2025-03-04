@@ -37,15 +37,15 @@ class OpenRouterService {
     }
   }
 
-  extractValidJsonFromResponse(responseText) {
+  extractValidJsonFromResponse(responseText: string) {
     // Step 1: Try to find and extract JSON block from markdown code blocks
     const jsonBlockMatch = responseText.match(/```json\s*([\s\S]*?)\s*```/);
     if (jsonBlockMatch && jsonBlockMatch[1]) {
       try {
         return JSON.parse(jsonBlockMatch[1]);
-      } catch (e) {
+      } catch (error) {
         console.log(
-          "Found JSON code block but couldn't parse it, trying other methods...",
+          `Failed to parse JSON block from markdown code block: ${error}`,
         );
       }
     }
@@ -53,8 +53,8 @@ class OpenRouterService {
     // Step 2: Try to parse the response directly
     try {
       return JSON.parse(responseText);
-    } catch (e) {
-      console.log("Direct parsing failed, trying repair methods...");
+    } catch (error) {
+      console.log(`Failed to parse JSON directly: ${error}`);
     }
 
     // Step 3: Try to fix truncated JSON
@@ -95,6 +95,7 @@ class OpenRouterService {
             jsonCandidate = testJson;
             break;
           } catch (parseError) {
+            console.log("Couldn't parse truncated JSON:", parseError);
             // Move to previous closing brace
             currentPos = potentialJson.lastIndexOf("}", currentPos - 1);
           }
@@ -113,7 +114,7 @@ class OpenRouterService {
           return JSON.parse(repairedJson);
         } catch (repairError) {
           console.log(
-            "Couldn't repair truncated JSON by adding closing braces",
+            `Couldn't repair truncated JSON: ${repairError}, falling back to original response`,
           );
         }
       }
@@ -134,6 +135,7 @@ class OpenRouterService {
         try {
           return JSON.parse(match);
         } catch (e) {
+          console.error("Error parsing JSON:", e);
           // Continue to next match
         }
       }

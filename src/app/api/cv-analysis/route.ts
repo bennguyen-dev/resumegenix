@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { fileService, IFileWithBuffer } from "@/services/file";
 import { openRouterService } from "@/services/open-router";
 
@@ -10,7 +10,7 @@ export const config = {
   },
 };
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
 

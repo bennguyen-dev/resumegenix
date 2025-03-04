@@ -1,4 +1,4 @@
-import * as pdfParse from "pdf-parse";
+import pdfParse from "pdf-parse";
 import { IFileWithBuffer, SupportedFileExtension } from "@/services/file";
 import { extractRawText } from "mammoth";
 import { IResponse } from "@/types/global";
