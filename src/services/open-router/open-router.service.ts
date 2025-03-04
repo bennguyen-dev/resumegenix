@@ -4,6 +4,11 @@ class OpenRouterService {
   async analyze({ text }: { text: string }) {
     try {
       const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+
+      if (!OPENROUTER_API_KEY) {
+        throw new Error("OPENROUTER_API_KEY is not defined");
+      }
+
       const url = "https://openrouter.ai/api/v1/chat/completions";
 
       const prompt = `${ANALYZE_TEXT_PROMPT} ${text}`;
@@ -31,6 +36,8 @@ class OpenRouterService {
 
       const result = rawText.choices[0].message.content.trim();
       return this.extractValidJsonFromResponse(result);
+
+      // return MOCK_DATA;
     } catch (error) {
       console.error("Error analyzing text:", error);
       throw new Error("Failed to analyze CV");

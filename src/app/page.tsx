@@ -4,11 +4,21 @@ import React, { useState } from "react";
 import FileUpload from "@/components/ui/file-upload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader } from "lucide-react";
+import { CVData } from "@/types/resume";
+import SkillTimeline from "@/components/charts/SkillTimeline";
+import SkillsMatrix from "@/components/charts/SkillsMatrix";
+import ProjectBreakdown from "@/components/charts/ProjectBreakdown";
+import SkillRadarChart from "@/components/charts/SkillRadarChart";
+import TechnologyPieChart from "@/components/charts/TechnologyPieChart";
+import { ExperienceTimeline } from "@/components/charts/grok/ExperienceTimeline";
+import { SkillsDistribution } from "@/components/charts/grok/SkillsDistribution";
+import { TechnicalSkillsBreakdown } from "@/components/charts/grok/TechnicalSkillsBreakdown";
+import { TechnologyUsage } from "@/components/charts/grok/TechnologyUsage";
+import { LanguageProficiency } from "@/components/charts/grok/LanguageProficiency";
+import { SkillTypeRadar } from "@/components/charts/grok/SkillTypeRadar";
 
 export default function ExtractTextPage() {
-  const [extractedTexts, setExtractedTexts] = useState<
-    { fileName: string; text: string }[]
-  >([]);
+  const [data, setData] = useState<CVData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -17,7 +27,7 @@ export default function ExtractTextPage() {
 
     setIsLoading(true);
     setError(null);
-    setExtractedTexts([]);
+    setData([]);
 
     try {
       // Process each file
@@ -39,14 +49,13 @@ export default function ExtractTextPage() {
             );
           }
 
-          return {
-            fileName: file.name,
-            text: data.text || "No text extracted",
-          };
+          console.log("data 😋", { data }, "");
+
+          return await data;
         }),
       );
 
-      setExtractedTexts(results);
+      setData(results);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unknown error occurred",
@@ -56,6 +65,8 @@ export default function ExtractTextPage() {
       setIsLoading(false);
     }
   };
+
+  console.log("data 😋", { data }, "");
 
   return (
     <div className="container py-8">
@@ -70,7 +81,6 @@ export default function ExtractTextPage() {
           </CardHeader>
           <CardContent>
             <FileUpload
-              maxFiles={5}
               acceptedFileTypes={{
                 "application/pdf": [".pdf"],
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
@@ -94,23 +104,58 @@ export default function ExtractTextPage() {
           </CardContent>
         </Card>
 
-        {extractedTexts.length > 0 && (
+        {data.length > 0 && (
           <Card>
             <CardHeader>
               <CardTitle>Extracted Text</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {extractedTexts.map((item, index) => (
-                  <div key={index} className="rounded-md border">
-                    <div className="border-b bg-gray-50 p-3 font-medium">
-                      {item.fileName}
+                {data.map((item, index) => {
+                  const types = Object.keys(item.skills.technical).concat([
+                    "soft",
+                  ]);
+                  return (
+                    <div key={index}>
+                      <h1>CV Review Charts</h1>
+                      <ExperienceTimeline data={item.experience} />
+                      <SkillsDistribution data={item} />
+                      <TechnicalSkillsBreakdown data={item} />
+                      <TechnologyUsage data={item} />
+                      <LanguageProficiency data={item.languages} />
+                      {/* Skill Timeline */}
+                      <SkillTimeline
+                        data={item.technology_timeline.frameworks}
+                        title="Framework Usage Timeline"
+                        dataKey="total_months"
+                      />
+
+                      <div className="space-y-4">
+                        {types.map((type) => (
+                          <SkillTypeRadar key={type} type={type} data={item} />
+                        ))}
+                      </div>
+
+                      {/* Skills Matrix */}
+                      <SkillsMatrix experienceData={item.experience} />
+
+                      {/* Project Breakdown */}
+                      <ProjectBreakdown projectData={item.projects} />
+
+                      {/* Skill Radar Chart */}
+                      <SkillRadarChart
+                        data={item.skills.technical}
+                        title="Skill Distribution"
+                      />
+
+                      {/* Technology Pie Chart */}
+                      <TechnologyPieChart
+                        data={item.skills.technical}
+                        title="Technology Category Breakdown"
+                      />
                     </div>
-                    <div className="max-h-80 overflow-y-auto p-4 text-sm whitespace-pre-wrap">
-                      {item.text}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </CardContent>
           </Card>
