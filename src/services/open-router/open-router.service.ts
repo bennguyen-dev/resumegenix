@@ -21,14 +21,19 @@ class OpenRouterService {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.0-flash-thinking-exp:free",
+          model: "google/gemini-2.0-pro-exp-02-05:free",
           messages: [
+            {
+              role: "system",
+              content:
+                "You are a CV analyzer specifically trained to extract detailed information from CVs of IT professionals. Extract all information into a detailed structured JSON format, with precise categorization of skills and technologies.",
+            },
             {
               role: "user",
               content: prompt,
             },
           ],
-          temperature: 0.5,
+          temperature: 0.1,
         }),
       });
 
@@ -36,8 +41,6 @@ class OpenRouterService {
 
       const result = rawText.choices[0].message.content.trim();
       return this.extractValidJsonFromResponse(result);
-
-      // return MOCK_DATA;
     } catch (error) {
       console.error("Error analyzing text:", error);
       throw new Error("Failed to analyze CV");

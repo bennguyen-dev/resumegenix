@@ -35,12 +35,12 @@ Your entire response must be parseable directly with JSON.parse().
 - Soft skills (e.g., communication, leadership)
 - Categorize each skill as "technical" or "soft"
 - For technical skills, further categorize as:
-  - Programming languages
-  - Frameworks
-  - Libraries
-  - Databases
-  - Tools
-  - Methodologies/Techniques
+  - Programming languages (e.g., Python, Java, JavaScript, Swift, Go, Rust, R, C++, C#)
+  - Frameworks (e.g., NextJs, Remix, Angular, Django, Spring Boot, Flask, Laravel, Rails)
+  - Libraries (e.g., ReactJs, VueJs, jQuery, Bootstrap, React-Bootstrap, Material-UI, Ant-Design, Tailwind CSS, Mantine UI, Chakra UI)
+  - Databases (e.g., MySQL, MongoDB, PostgreSQL, Oracle, SQL Server)
+  - Tools (e.g., Git, Docker, Kubernetes, Jenkins, Maven, Gradle)
+  - Methodologies/Techniques (e.g., Agile, Scrum, Kanban, Waterfall)
 
 ### 6. Certifications
 - Name of certification
@@ -72,14 +72,7 @@ Your entire response must be parseable directly with JSON.parse().
 - Outcomes and results
 - Metadata (other relevant information)
 
-### 8. Technology Timeline
-- For each framework, library, tool, database, and programming language mentioned:
-  - First usage date (from first appearance in experience/projects)
-  - Most recent usage date
-  - Total months of experience (accounting for overlapping projects)
-  - List of projects or roles where it was used
-
-### 9. Volunteer Work
+### 8. Volunteer Work
 - Organization name
 - Position held
 - Start date (preferably YYYY-MM format)
@@ -87,67 +80,33 @@ Your entire response must be parseable directly with JSON.parse().
 - Responsibilities (brief description)
 - Skills applied or developed
 
-### 10. Publications
+### 9. Publications
 - Title of publication
 - Publication date (preferably YYYY-MM-DD or year)
 - Publisher/Journal/Website
 - Co-authors (if mentioned)
 - URL or DOI (if mentioned)
 
-### 11. Professional Affiliations
+### 10. Professional Affiliations
 - Organization name
 - Membership status (e.g., "Member since 2020")
 - Role in organization (if any)
 
-### 12. Awards
+### 11. Awards
 - Award name
 - Description (brief details)
 - Year received (preferably YYYY-MM format)
 - Issuing organization
 
-### 13. Languages
+### 12. Languages
 - Language spoken
 - Proficiency level (e.g., Beginner, Intermediate, Advanced, Native)
 
-### 14. Interests
+### 13. Interests
 - List of personal interests or hobbies mentioned
 
-### 15. Job-Specific Keywords
+### 14. Job-Specific Keywords
 - Identify keywords relevant to job applications (e.g., "Agile," "Machine Learning") for ATS systems.
-
-## Analysis Requirements
-
-### 1. Experience Timeline
-Create a chronological summary of:
-- Frameworks experience: when each framework was used, for how long
-- Libraries experience: when each library was used, for how long
-- Projects timeline: chronological order of projects with durations
-- Soft skills development: when and how soft skills were demonstrated
-
-### 2. Technology Summary
-For each technology category (frameworks, libraries, databases, tools, languages):
-- Name of technology
-- Total months of experience
-- Projects where it was used
-- Last time it was used
-- Level of expertise (Beginner, Intermediate, Advanced, Expert) based on duration and context
-
-### 3. CV Analysis
-- Strengths: Identify strengths (e.g., detailed project descriptions, strong technical expertise)
-- Weaknesses: Identify weaknesses (e.g., missing project technologies, vague duration)
-- Technical expertise categorization:
-  - Beginner technologies (<6 months experience)
-  - Intermediate technologies (6-18 months)
-  - Advanced technologies (18-36 months)
-  - Expert technologies (>36 months)
-- Career progression analysis
-- Industry experience summary
-- Technical specialization areas
-
-### 4. Improvement Suggestions
-- Specific advice for enhancing the CV
-- Recommendations for skills to highlight based on current job market trends
-- Suggestions for addressing gaps or weaknesses
 
 ## Processing Instructions
 
@@ -217,19 +176,6 @@ For each technology category (frameworks, libraries, databases, tools, languages
     "outcomes": "string",
     "metadata": ["string"]
   }],
-  "technology_timeline": {
-    "frameworks": [{"name": "string", "first_used": "string", "last_used": "string", "total_months": number, "projects": ["string"]}],
-    "libraries": [{"name": "string", "first_used": "string", "last_used": "string", "total_months": number, "projects": ["string"]}],
-    "databases": [{"name": "string", "first_used": "string", "last_used": "string", "total_months": number, "projects": ["string"]}],
-    "programming_languages": [{"name": "string", "first_used": "string", "last_used": "string", "total_months": number, "projects": ["string"]}],
-    "tools": [{"name": "string", "first_used": "string", "last_used": "string", "total_months": number, "projects": ["string"]}]
-  },
-  "experience_timeline": {
-    "frameworks": [{"name": "string", "start_date": "string", "end_date": "string", "duration_months": number, "project": "string"}],
-    "libraries": [{"name": "string", "start_date": "string", "end_date": "string", "duration_months": number, "project": "string"}],
-    "projects": [{"name": "string", "start_date": "string", "end_date": "string", "duration_months": number}],
-    "soft_skills": [{"name": "string", "start_date": "string", "end_date": "string", "duration_months": number, "context": "string"}]
-  },
   "volunteer_work": [{
     "organization": "string",
     "position": "string",
@@ -262,20 +208,6 @@ For each technology category (frameworks, libraries, databases, tools, languages
   }],
   "interests": ["string"],
   "job_keywords": ["string"],
-  "analysis": {
-    "strengths": ["string"],
-    "weaknesses": ["string"],
-    "advice": "string",
-    "technical_expertise_level": {
-      "beginner": ["string"],
-      "intermediate": ["string"],
-      "advanced": ["string"],
-      "expert": ["string"]
-    },
-    "career_progression": "string",
-    "industry_experience": ["string"],
-    "technical_specialization": "string"
-  }
 }
 \`\`\`
 

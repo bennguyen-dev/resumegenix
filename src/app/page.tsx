@@ -3,19 +3,7 @@
 import React, { useState } from "react";
 import FileUpload from "@/components/ui/file-upload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader } from "lucide-react";
 import { CVData } from "@/types/resume";
-import SkillTimeline from "@/components/charts/SkillTimeline";
-import SkillsMatrix from "@/components/charts/SkillsMatrix";
-import ProjectBreakdown from "@/components/charts/ProjectBreakdown";
-import SkillRadarChart from "@/components/charts/SkillRadarChart";
-import TechnologyPieChart from "@/components/charts/TechnologyPieChart";
-import { ExperienceTimeline } from "@/components/charts/grok/ExperienceTimeline";
-import { SkillsDistribution } from "@/components/charts/grok/SkillsDistribution";
-import { TechnicalSkillsBreakdown } from "@/components/charts/grok/TechnicalSkillsBreakdown";
-import { TechnologyUsage } from "@/components/charts/grok/TechnologyUsage";
-import { LanguageProficiency } from "@/components/charts/grok/LanguageProficiency";
-import { SkillTypeRadar } from "@/components/charts/grok/SkillTypeRadar";
 
 export default function ExtractTextPage() {
   const [data, setData] = useState<CVData[]>([]);
@@ -66,13 +54,9 @@ export default function ExtractTextPage() {
     }
   };
 
-  console.log("data 😋", { data }, "");
-
   return (
     <div className="container py-8">
-      <h1 className="mb-6 text-center text-2xl font-bold">
-        PDF and DOCX Text Extractor
-      </h1>
+      <h1 className="mb-6 text-center text-2xl font-bold">Resume Extractor</h1>
 
       <div className="mx-auto max-w-3xl">
         <Card className="mb-6">
@@ -87,14 +71,8 @@ export default function ExtractTextPage() {
                   [".docx"],
               }}
               onFilesUploaded={handleFilesUploaded}
+              loading={isLoading}
             />
-
-            {isLoading && (
-              <div className="mt-4 flex items-center justify-center">
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
-                <span>Extracting text...</span>
-              </div>
-            )}
 
             {error && (
               <div className="mt-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
@@ -107,56 +85,14 @@ export default function ExtractTextPage() {
         {data.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Extracted Text</CardTitle>
+              <CardTitle>Data JSON</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {data.map((item, index) => {
-                  const types = Object.keys(item.skills.technical).concat([
-                    "soft",
-                  ]);
-                  return (
-                    <div key={index}>
-                      <h1>CV Review Charts</h1>
-                      <ExperienceTimeline data={item.experience} />
-                      <SkillsDistribution data={item} />
-                      <TechnicalSkillsBreakdown data={item} />
-                      <TechnologyUsage data={item} />
-                      <LanguageProficiency data={item.languages} />
-                      {/* Skill Timeline */}
-                      <SkillTimeline
-                        data={item.technology_timeline.frameworks}
-                        title="Framework Usage Timeline"
-                        dataKey="total_months"
-                      />
-
-                      <div className="space-y-4">
-                        {types.map((type) => (
-                          <SkillTypeRadar key={type} type={type} data={item} />
-                        ))}
-                      </div>
-
-                      {/* Skills Matrix */}
-                      <SkillsMatrix experienceData={item.experience} />
-
-                      {/* Project Breakdown */}
-                      <ProjectBreakdown projectData={item.projects} />
-
-                      {/* Skill Radar Chart */}
-                      <SkillRadarChart
-                        data={item.skills.technical}
-                        title="Skill Distribution"
-                      />
-
-                      {/* Technology Pie Chart */}
-                      <TechnologyPieChart
-                        data={item.skills.technical}
-                        title="Technology Category Breakdown"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
+              <pre>
+                <code className="language-json">
+                  {JSON.stringify(data, null, 2)}
+                </code>
+              </pre>
             </CardContent>
           </Card>
         )}

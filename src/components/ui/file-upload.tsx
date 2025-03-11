@@ -4,7 +4,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone, FileWithPath, Accept } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload, X, FileText, Check, File } from "lucide-react";
+import { Upload, X, FileText, Check, File, Loader } from "lucide-react";
 
 // Extend FileWithPath to include preview URL
 interface FileWithPreview extends FileWithPath {
@@ -16,6 +16,7 @@ interface FileUploadProps {
   maxSize?: number; // in bytes
   acceptedFileTypes?: Accept;
   onFilesUploaded?: (files: File[]) => void;
+  loading?: boolean;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
@@ -28,6 +29,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     ],
   },
   onFilesUploaded,
+  loading,
 }) => {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [previewOpen, setPreviewOpen] = useState<boolean>(false);
@@ -263,7 +265,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {/* Upload Button */}
           <div className="mt-4 flex justify-end">
             <Button className="flex items-center gap-2" onClick={handleUpload}>
-              <Check className="h-4 w-4" />
+              {loading ? (
+                <Loader className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Check className="h-4 w-4" />
+              )}
               Upload Document
             </Button>
           </div>
