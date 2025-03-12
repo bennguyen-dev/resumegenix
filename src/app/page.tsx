@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import FileUpload from "@/components/ui/file-upload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CVData } from "@/types/resume";
+import CompanyDurationChart from "@/components/charts/CompanyDurationChart";
 
 export default function ExtractTextPage() {
   const [data, setData] = useState<CVData[]>([]);
@@ -36,9 +37,6 @@ export default function ExtractTextPage() {
               `Failed to extract text from ${file.name}: ${data.error}`,
             );
           }
-
-          console.log("data 😋", { data }, "");
-
           return await data;
         }),
       );
@@ -83,18 +81,25 @@ export default function ExtractTextPage() {
         </Card>
 
         {data.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Data JSON</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre>
-                <code className="language-json">
-                  {JSON.stringify(data, null, 2)}
-                </code>
-              </pre>
-            </CardContent>
-          </Card>
+          <>
+            {/*<Card>*/}
+            {/*  <CardHeader>*/}
+            {/*    <CardTitle>Data JSON</CardTitle>*/}
+            {/*  </CardHeader>*/}
+            {/*  <CardContent>*/}
+            {/*    <pre>*/}
+            {/*      <code className="language-json">*/}
+            {/*        {JSON.stringify(data, null, 2)}*/}
+            {/*      </code>*/}
+            {/*    </pre>*/}
+            {/*  </CardContent>*/}
+            {/*</Card>*/}
+            {data.map((item) => (
+              <React.Fragment key={item.personal_details.name}>
+                <CompanyDurationChart experience={item.experience} />
+              </React.Fragment>
+            ))}
+          </>
         )}
       </div>
     </div>

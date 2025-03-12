@@ -2,6 +2,8 @@ import { ANALYZE_TEXT_PROMPT } from "@/services/open-router";
 
 class OpenRouterService {
   async analyze({ text }: { text: string }) {
+    const today = new Date();
+
     try {
       const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
@@ -11,7 +13,10 @@ class OpenRouterService {
 
       const url = "https://openrouter.ai/api/v1/chat/completions";
 
-      const prompt = `${ANALYZE_TEXT_PROMPT} ${text}`;
+      const prompt = `${ANALYZE_TEXT_PROMPT} ${text}`.replaceAll(
+        "{{now}}",
+        today.toISOString(),
+      );
 
       const response = await fetch(url, {
         method: "POST",
