@@ -5,6 +5,7 @@ import FileUpload from "@/components/ui/file-upload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CVData } from "@/types/resume";
 import CompanyDurationChart from "@/components/charts/CompanyDurationChart";
+import ProjectDurationChart from "@/components/charts/ProjectDurationChart";
 
 export default function ExtractTextPage() {
   const [data, setData] = useState<CVData[]>([]);
@@ -97,6 +98,7 @@ export default function ExtractTextPage() {
             {data.map((item) => (
               <React.Fragment key={item.personal_details.name}>
                 <CompanyDurationChart experience={item.experience} />
+                <ProjectDurationChart projects={item.projects} />
               </React.Fragment>
             ))}
           </>
