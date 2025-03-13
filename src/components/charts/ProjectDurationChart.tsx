@@ -19,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { formatYearMonth } from "@/lib/utils";
 
 interface SkillDurationRadarChartProps {
   projects: CVData["projects"];
@@ -33,12 +34,6 @@ const ProjectDurationChart: React.FC<SkillDurationRadarChartProps> = ({
       duration: project.duration_months ? project.duration_months / 12 : 0,
     }));
   }, [projects]);
-
-  const formatYearMonth = (value: number) => {
-    const years = Math.floor(value);
-    const months = Math.round((value - years) * 12);
-    return `${years} year${years !== 1 ? "s" : ""} ${months} month${months !== 1 ? "s" : ""}`;
-  };
 
   const chartConfig = {
     duration: {

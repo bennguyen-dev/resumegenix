@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CVData } from "@/types/resume";
 import CompanyDurationChart from "@/components/charts/CompanyDurationChart";
 import ProjectDurationChart from "@/components/charts/ProjectDurationChart";
+import SkillCategoryChart from "@/components/charts/SkillCategoryChart";
 
 export default function ExtractTextPage() {
   const [data, setData] = useState<CVData[]>([]);
@@ -54,11 +55,11 @@ export default function ExtractTextPage() {
   };
 
   return (
-    <div className="container py-8">
+    <div className="p-8">
       <h1 className="mb-6 text-center text-2xl font-bold">Resume Extractor</h1>
 
-      <div className="mx-auto max-w-3xl">
-        <Card className="mb-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Card>
           <CardHeader>
             <CardTitle>Upload Files</CardTitle>
           </CardHeader>
@@ -83,22 +84,26 @@ export default function ExtractTextPage() {
 
         {data.length > 0 && (
           <>
-            {/*<Card>*/}
-            {/*  <CardHeader>*/}
-            {/*    <CardTitle>Data JSON</CardTitle>*/}
-            {/*  </CardHeader>*/}
-            {/*  <CardContent>*/}
-            {/*    <pre>*/}
-            {/*      <code className="language-json">*/}
-            {/*        {JSON.stringify(data, null, 2)}*/}
-            {/*      </code>*/}
-            {/*    </pre>*/}
-            {/*  </CardContent>*/}
-            {/*</Card>*/}
             {data.map((item) => (
               <React.Fragment key={item.personal_details.name}>
                 <CompanyDurationChart experience={item.experience} />
                 <ProjectDurationChart projects={item.projects} />
+                <SkillCategoryChart
+                  category={"programming_languages"}
+                  projects={item.projects}
+                />
+                <SkillCategoryChart
+                  category={"frameworks"}
+                  projects={item.projects}
+                />
+                <SkillCategoryChart
+                  category={"libraries"}
+                  projects={item.projects}
+                />
+                <SkillCategoryChart
+                  category={"databases"}
+                  projects={item.projects}
+                />
               </React.Fragment>
             ))}
           </>

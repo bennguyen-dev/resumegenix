@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { CVData } from "@/types/resume";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
+import { formatYearMonth } from "@/lib/utils";
 
 interface CompanyDurationChartProps {
   experience: CVData["experience"];
@@ -35,12 +36,6 @@ const CompanyDurationChart: React.FC<CompanyDurationChartProps> = ({
       endDate: exp.end_date,
     }));
   }, [experience]);
-
-  const formatYearMonth = (value: number) => {
-    const years = Math.floor(value);
-    const months = Math.round((value - years) * 12);
-    return `${years} year${years !== 1 ? "s" : ""} ${months} month${months !== 1 ? "s" : ""}`;
-  };
 
   const chartConfig = {
     duration: {
